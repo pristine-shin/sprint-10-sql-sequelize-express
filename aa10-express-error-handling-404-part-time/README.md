@@ -23,7 +23,7 @@ one of your application's configured routes). You should see a message in the
 browser of `Cannot GET /some-unknown-resource`.
 
 You want to create a "Resource Not Found" middleware that should create an error
-when none of the route handlers are matched to a request method/URL path
+when of the route handlers are matched to a request method/URL path
 combination. This middleware should **override that default Express response**
 by throwing an error if a request doesn't match any of the route handlers.
 
@@ -34,8 +34,8 @@ In this function, create a `new Error` with the message "Sorry, the requested
 resource couldn't be found".
 
 The status code of a response should be `404` when something is not found in the
-server. Add a `statusCode` property of `404` to the error object so that any 
-error-handling middleware that catches this error knows that the error was 
+server. Add a `statusCode` property of `404` to the error object so that any
+error-handling middleware that catches this error knows that the error was
 thrown because something was not found.
 
 Finally, pass the error into the next error-handling middleware.
