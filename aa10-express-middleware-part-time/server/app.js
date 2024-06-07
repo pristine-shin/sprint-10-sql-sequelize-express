@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+app.use(express.json());
+
 
 // For testing purposes, GET /
 app.get('/', (req, res) => {
@@ -19,5 +21,5 @@ app.get('/test-error', async (req, res) => {
   throw new Error("Hello World!")
 });
 
-const port = 5000;
+const port = 5001;
 app.listen(port, () => console.log('Server is listening on port', port));
