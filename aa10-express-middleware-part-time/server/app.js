@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+//phase 4
+require('dotenv').config()
 
 //phase 1
 require('express-async-errors');
@@ -15,7 +17,7 @@ app.use((req, res, next) => {
   next();
 })
 
-//phase 3
+//phase 3 (also in dogs.js file)
 const dogsRouter = require('./routes/dogs');
 app.use('/dogs', dogsRouter);
 
@@ -24,6 +26,7 @@ app.use('/dogs', dogsRouter);
 // For testing purposes, GET /
 app.get('/', (req, res) => {
   res.json("Express server running. No content provided at root level. Please use another route.");
+  console.log(process.env.NODE_ENV)
 });
 
 // For testing express.json middleware
@@ -46,13 +49,15 @@ app.get('/test-error', async (req, res) => {
     next(error);
   })
 
+  //Also phase 2 and phase 4 part 1
   app.use((err, req, res, next) => {
     console.log(err);
     const statusCode = err.statusCode || 500;
     res.status(statusCode);
     res.json({
       message: err.message || 'Something went wrong',
-      statusCode
+      statusCode,
+      stack:  (process.env.NODE_ENV !== 'production') ? err.stack : undefined
     })
   })
 
