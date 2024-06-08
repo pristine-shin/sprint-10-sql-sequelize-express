@@ -89,7 +89,6 @@ const express = require('express');
 
 const router = express.Router();
 
-
 //	getAllDogs	retrieves info for all dogs
 router.get('/', (req, res) => {
   getAllDogs(req, res)
@@ -115,5 +114,8 @@ router.delete('/:dogId', validateDogId, (req, res) => {
   deleteDog(req, res)
 })
 
+//phase 5
+const dogFoodRouter = require('./dog-foods');
+router.use('/:dogId/foods', validateDogId, dogFoodRouter)
 
 module.exports = router;
