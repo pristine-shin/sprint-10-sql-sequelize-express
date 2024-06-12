@@ -5,18 +5,23 @@ DROP TABLE IF EXISTS musicians;
 DROP TABLE IF EXISTS bands;
 DROP TABLE IF EXISTS musician_instrument;
 
-
 CREATE TABLE bands (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name VARCHAR(100)
 );
+
 CREATE TABLE musicians (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   first_name VARCHAR(100) NOT NULL,
   last_name VARCHAR(100),
-  mucisian_id INTEGER,
-  FOREIGN KEY (mucisian_id) REFERENCES mucisians(id)
+  band_id INTEGER,
+  FOREIGN KEY (band_id) REFERENCES bands(id)
 );
+
+INSERT INTO bands (name) VALUES ("SPELLING");
+
+INSERT INTO musicians (first_name, last_name, band_id)
+VALUES ("Tia", "Cabral", 1);
 
 CREATE TABLE instruments (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -24,8 +29,14 @@ CREATE TABLE instruments (
 );
 
 CREATE TABLE musician_instrument (
-  musician_id INTEGER,
-  instrument_id INTEGER,
-  FOREIGN KEY (musician_id) REFERENCES musicians(id)
+  musician_id INTEGER NOT NULL,
+  instrument_id INTEGER NOT NULL,
+  FOREIGN KEY (musician_id) REFERENCES musicians(id),
   FOREIGN KEY (instrument_id) REFERENCES instruments(id)
 );
+
+INSERT INTO instruments (type)
+VALUES ("Synthesizer");
+
+INSERT INTO musician_instrument (musician_id, instrument_id)
+VALUES(1, 1);
