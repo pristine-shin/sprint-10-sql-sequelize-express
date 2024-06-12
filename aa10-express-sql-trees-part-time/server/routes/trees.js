@@ -23,7 +23,7 @@ const db = new sqlite3.Database(process.env.DB_FILE, sqlite3.OPEN_READWRITE);
  */
 // Your code here
 router.get('/', (req, res, next) => {
-    const sql = 'SELECT * FROM trees';
+    const sql = 'SELECT id, tree FROM trees';
     const params = [];
 
     db.all(sql, params, (err, rows) => {
@@ -101,6 +101,20 @@ router.post('/', (req, res, next) => {
  *   - Value: success
  */
 // Your code here
+router.delete('/:id', (req, res, next) => {
+    const sql = 'DELETE FROM trees WHERE id = ?';
+    const params = [req.params.id];
+
+    db.run(sql, params, (err) => {
+        if (err) {
+            next(err);
+        } else {
+            res.json({
+                message: 'success'
+            });
+        }
+    })
+})
 
 /**
  * INTERMEDIATE PHASE 6 - UPDATE a tree row in the database
@@ -113,6 +127,34 @@ router.post('/', (req, res, next) => {
  *   - Value: success
  */
 // Your code here
+router.put('/:id', (req, res, next) => {
+    const sql = 'UPDATE trees SET tree = ?, location = ?, height_ft = ?, ground_circumference_ft = ? WHERE id = ?';
+    const params = [
+        req.body.name,
+        req.body.location,
+        req.body.height,
+        req.body.size,
+        req.params.id
+    ];
+
+    if (req.body.id !== req.params.id) {
+        throw new Error (JSON.stringify(
+            {
+                "error": "ids do not match",
+            }
+        ))
+    }
+
+    db.run(sql, params, (err) => {
+        if (err) {
+            next(err);
+        } else {
+            res.json({
+                message: 'success'
+            });
+        }
+    })
+})
 
 // Export class - DO NOT MODIFY
 module.exports = router;
