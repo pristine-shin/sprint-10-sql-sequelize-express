@@ -128,11 +128,9 @@ router.delete('/:id', (req, res, next) => {
  */
 // Your code here
 router.put('/:id', (req, res, next) => {
-    if (req.body.id !== req.params.id) {
-        const err = new Error (res.json({
-            "error": "ids do not match",
-        }));
-        err.statusCode = 400;
+    if (req.body.id /*number */ !== +req.params.id /*string */) {
+        const err = new Error (
+            "ids do not match");
         next(err);
     } else {
         const sql = 'UPDATE trees SET tree = ?, location = ?, height_ft = ?, ground_circumference_ft = ? WHERE id = ?';
@@ -143,17 +141,17 @@ router.put('/:id', (req, res, next) => {
             req.body.size,
             req.params.id
         ];
-    }
 
-    db.run(sql, params, (err) => {
-        if (err) {
-            next(err);
-        } else {
-            res.json({
-                message: 'success'
-            });
-        }
-    })
+        db.run(sql, params, (err) => {
+            if (err) {
+                next(err);
+            } else {
+                return res.json({
+                    message: 'success'
+                });
+            }
+        })
+    }
 })
 
 // Export class - DO NOT MODIFY
